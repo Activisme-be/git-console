@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Capsule\Manager;
+
 // set to run indefinitely if needed
 set_time_limit(0);
 
@@ -12,11 +14,33 @@ date_default_timezone_set('America/Los_Angeles');
 // include the composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
+//> Boot UP:   database connection
+$env = new \Dotenv\Dotenv(__DIR__);
+$env->load();
+
+$capsule = new Manager();
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => getenv('DB_HOST'),
+    'database'  => getenv('DB_DATABASE'),
+    'username'  => getenv('DB_USERNAME'),
+    'password'  => getenv('DB_PASSWORD'),
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
+
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+//> BOOT END:  end database setup
+
+//> Boot up the envoyer console
 $application = new \Symfony\Component\Console\Application('Git traveller', '1.0.0');
 
 $application->add(new \ActivismeBe\Console\Commands\LabelGroupCommand()); // TODO: Build up the command.
-$application->add(new \ActivismeBe\Console\Commands\ChangeGitCommand());  // TODO: Build up the command.
+$application->add(new \ActivismeBe\Console\Commands\ChangeGitCommand());
 $application->add(new \ActivismeBe\Console\Commands\ChangeEnvCommand());
+$application->add(new \ActivismeBe\Console\Commands\CreateLabelCommand());
 
 $application->add(new \ActivismeBe\Console\Commands\Database\InitCommand());
 $application->add(new \ActivismeBe\Console\Commands\Database\AddEnvCommand());
@@ -26,3 +50,4 @@ $application->add(new \ActivismeBe\Console\Commands\Database\StatusCommand());
 $application->add(new \ActivismeBe\Console\Commands\Database\UpCommand());
 
 $application->run();
+//> Boot end envoyer console.

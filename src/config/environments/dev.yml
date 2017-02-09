@@ -1,7 +1,7 @@
 connection:
     host:     localhost
     driver:   mysql
-    port:     ~
+    port:     3306
     username: root
     password: root
     database: evnvoyer

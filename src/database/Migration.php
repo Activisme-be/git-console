@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: aguidet
- * Date: 28/02/15
- * Time: 18:54
- */
 
 namespace ActivismeBe\Console\Database;
 
 use Cocur\Slugify\Slugify;
-use Migrate\Utils\ArrayUtil;
+use ActivismeBe\Console\Utils\ArrayUtil;
 
 class Migration
 {

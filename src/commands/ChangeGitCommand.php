@@ -54,8 +54,8 @@ class ChangeGitCommand extends Command
         $passQuestion->setHidden(true)->setHiddenFallback(false);
 
         // Update variables
-        $update['GITHUB_USER'] = $helper->ask($input, $output, $userQuestion);;
-        $update['GITHUB_PASS'] = $helper->ask($input, $output, $passQuestion);;
+        $update['GITHUB_USER'] = $helper->ask($input, $output, $userQuestion);
+        $update['GITHUB_PASS'] = $helper->ask($input, $output, $passQuestion);
 
         if ($this->changeEnv($update)) { // .env data changed
             $outputMsg = '<info>The Github setup is saved!</info>';

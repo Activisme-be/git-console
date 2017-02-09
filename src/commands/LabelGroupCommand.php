@@ -17,7 +17,7 @@ class LabelGroupCommand extends Command
     protected function configure()
     {
         // Configure the arguments and call methods.
-        $this->setName('info:label-groups');
+        $this->setName('label:info-groups');
         $this->setDescription('Show the documentation about the issue label groups.');
         $this->addArgument('group', InputArgument::OPTIONAL, 'The issue label group.');
     }
