@@ -1,0 +1,23 @@
+<?php
+
+// set to run indefinitely if needed
+set_time_limit(0);
+
+error_reporting(E_ALL);         // For debugging propose
+ini_set('display_errors', 1);   // For debugging propose
+
+/* Optional. It’s better to do it in the php.ini file */
+date_default_timezone_set('America/Los_Angeles');
+
+// include the composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
+$application = new \Symfony\Component\Console\Application('Git traveller', '1.0.0');
+
+$application->add(new \ActivismeBe\Console\Commands\LabelGroupCommand()); // TODO: Build up the command.
+$application->add(new \ActivismeBe\Console\Commands\ChangeGitCommand());  // TODO: Build up the command.
+$application->add(new \ActivismeBe\Console\Commands\ChangeEnvCommand());
+$application->add(new \ActivismeBe\Console\Commands\Database\InitCommand());
+$application->add(new \ActivismeBe\Console\Commands\Database\AddEnvCommand());
+
+$application->run();

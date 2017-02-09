@@ -1,0 +1,26 @@
+{
+    "name": "tjoosten/gitconsole",
+    "description": "Git console for activisme-BE",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tim Joosten",
+            "email": "Tjoosten3@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "^3.2",
+        "vlucas/phpdotenv": "^2.4",
+        "symfony/yaml": "^3.2",
+        "symfony/config": "^3.2"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-4":{
+            "ActivismeBe\\Console\\": "src/"
+        }
+    }
+}
