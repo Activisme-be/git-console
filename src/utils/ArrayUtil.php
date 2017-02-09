@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: aguidet
- * Date: 28/02/15
- * Time: 18:30
- */
+
 namespace ActivismeBe\Console\Utils;
 
 class ArrayUtil
@@ -19,11 +14,14 @@ class ArrayUtil
         if (isset($array['.'])) {
             unset($array['.']);
         }
+
         if (isset($array['..'])) {
             unset($array['..']);
         }
+
         unset($array[0]);
         unset($array[1]);
+
         return $array;
     }
 }
