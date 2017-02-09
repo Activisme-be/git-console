@@ -8,4 +8,9 @@ class Groups extends Model
 {
     protected $table    = 'groups';
     protected $fillable = ['group', 'description'];
+
+    public function labels()
+    {
+        return $this->belongsToMany('Labels');
+    }
 }
