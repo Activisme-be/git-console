@@ -52,7 +52,7 @@ class AddEnvCommand extends AbstractEnvCommand
         $changelogTable = $questions->ask($input, $output, $changelogTableQuestion);
         $defaultEditorQuestion = new Question("Please enter the text editor to use by default <info>(default vim)</info>: ", "vim");
         $defaultEditor = $questions->ask($input, $output, $defaultEditorQuestion);
-        $confTemplate = file_get_contents(__DIR__ . '/../../templates/env.yml.tpl');
+        $confTemplate = file_get_contents(__DIR__ . '/../../stubs/env.yml');
         $confTemplate = str_replace('{DRIVER}', $driver, $confTemplate);
         $confTemplate = str_replace('{HOST}', $dbHost, $confTemplate);
         $confTemplate = str_replace('{PORT}', $dbPort, $confTemplate);

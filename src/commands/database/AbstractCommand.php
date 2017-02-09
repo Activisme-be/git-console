@@ -19,12 +19,12 @@ class AbstractCommand extends Command
     {
         parent::__construct();
 
-        $this->mainDir        = getcwd() . '/config';
+        $this->mainDir        = getcwd() . '/src/config';
         $this->environmentDir = $this->mainDir . '/environments';
         $this->migrationDir   = $this->mainDir . '/migrations';
     }
 
-    public function mainDir()
+    public function getMainDir()
     {
         return $this->mainDir;
     }
