@@ -17,7 +17,12 @@ $application = new \Symfony\Component\Console\Application('Git traveller', '1.0.
 $application->add(new \ActivismeBe\Console\Commands\LabelGroupCommand()); // TODO: Build up the command.
 $application->add(new \ActivismeBe\Console\Commands\ChangeGitCommand());  // TODO: Build up the command.
 $application->add(new \ActivismeBe\Console\Commands\ChangeEnvCommand());
+
 $application->add(new \ActivismeBe\Console\Commands\Database\InitCommand());
 $application->add(new \ActivismeBe\Console\Commands\Database\AddEnvCommand());
+$application->add(new \ActivismeBe\Console\Commands\Database\DownCommand());
+$application->add(new \ActivismeBe\Console\Commands\Database\CreateCommand());
+$application->add(new \ActivismeBe\Console\Commands\Database\StatusCommand());
+$application->add(new \ActivismeBe\Console\Commands\Database\UpCommand());
 
 $application->run();

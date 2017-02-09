@@ -21,37 +21,50 @@ class AddEnvCommand extends AbstractEnvCommand
         if(! file_exists($this->getMainDir())) {
             mkdir($this->getMainDir());
         }
+
         if(! file_exists($this->getEnvironmentDir())) {
             mkdir($this->getEnvironmentDir());
         }
+
         if(! file_exists($this->getMigrationDir())) {
             mkdir($this->getMigrationDir());
         }
-        $drivers = pdo_drivers();
-        /* @var $questions QuestionHelper */
-        $questions = $this->getHelperSet()->get('question');
-        $envQuestion = new Question("Please enter the name of the new environment <info>(default dev)</info>: ", "dev");
-        $envName = $questions->ask($input, $output, $envQuestion );
+
+        $drivers       = pdo_drivers();
+        $questions     = $this->getHelperSet()->get('question');
+
+        $envQuestion   = new Question("Please enter the name of the new environment <info>(default dev)</info>: ", "dev");
+        $envName       = $questions->ask($input, $output, $envQuestion );
         $envConfigFile = $this->getEnvironmentDir() . '/' . $envName . '.yml';
+
         if (file_exists($envConfigFile)) {
             throw new \InvalidArgumentException("environment [$envName] is already defined!");
         }
+
         $driverQuestion = new ChoiceQuestion("Please chose your pdo driver", $drivers);
-        $driver = $questions->ask($input, $output, $driverQuestion);
+        $driver         = $questions->ask($input, $output, $driverQuestion);
+
         $dbNameQuestion = new Question("Please enter the database name (or the database file location): ", "~");
-        $dbName = $questions->ask($input, $output, $dbNameQuestion);
+        $dbName         = $questions->ask($input, $output, $dbNameQuestion);
+
         $dbHostQuestion = new Question("Please enter the database host (if needed): ", "~");
-        $dbHost = $questions->ask($input, $output, $dbHostQuestion);
+        $dbHost         = $questions->ask($input, $output, $dbHostQuestion);
+
         $dbPortQuestion = new Question("Please enter the database port (if needed): ", "~");
-        $dbPort = $questions->ask($input, $output, $dbPortQuestion);
+        $dbPort         = $questions->ask($input, $output, $dbPortQuestion);
+
         $dbUserNameQuestion = new Question("Please enter the database user name (if needed): ", "~");
-        $dbUserName = $questions->ask($input, $output, $dbUserNameQuestion);
+        $dbUserName         = $questions->ask($input, $output, $dbUserNameQuestion);
+
         $dbUserPasswordQuestion = new Question("Please enter the database user password (if needed): ", "~");
-        $dbUserPassword = $questions->ask($input, $output, $dbUserPasswordQuestion);
+        $dbUserPassword         = $questions->ask($input, $output, $dbUserPasswordQuestion);
+
         $changelogTableQuestion = new Question("Please enter the changelog table <info>(default changelog)</info>: ", "changelog");
-        $changelogTable = $questions->ask($input, $output, $changelogTableQuestion);
+        $changelogTable         = $questions->ask($input, $output, $changelogTableQuestion);
+
         $defaultEditorQuestion = new Question("Please enter the text editor to use by default <info>(default vim)</info>: ", "vim");
-        $defaultEditor = $questions->ask($input, $output, $defaultEditorQuestion);
+        $defaultEditor         = $questions->ask($input, $output, $defaultEditorQuestion);
+
         $confTemplate = file_get_contents(__DIR__ . '/../../stubs/env.yml');
         $confTemplate = str_replace('{DRIVER}', $driver, $confTemplate);
         $confTemplate = str_replace('{HOST}', $dbHost, $confTemplate);
@@ -61,6 +74,7 @@ class AddEnvCommand extends AbstractEnvCommand
         $confTemplate = str_replace('{DATABASE}', $dbName, $confTemplate);
         $confTemplate = str_replace('{CHANGELOG}', $changelogTable, $confTemplate);
         $confTemplate = str_replace('{EDITOR}', $defaultEditor, $confTemplate);
+
         file_put_contents($envConfigFile, $confTemplate);
     }
 }
