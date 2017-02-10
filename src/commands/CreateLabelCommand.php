@@ -55,7 +55,7 @@ class CreateLabelCommand extends Command
 
         foreach ((array) $data['location'] as $info => $item) {
             if ((string) $item === 'Local') {
-                Labels::create($input);
+                Labels::create($data);
                 return $output->writeln("<info>INFO:</info> The label is created");
             }
 

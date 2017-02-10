@@ -1,10 +1,10 @@
 connection:
     host:     localhost
     driver:   mysql
-    port:     3306
+    port:     ~
     username: root
-    password: root
-    database: evnvoyer
+    password: ~
+    database: envoyer
 
 changelog: changelog
 default_editor: vim

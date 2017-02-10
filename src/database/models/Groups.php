@@ -7,10 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Groups extends Model
 {
     protected $table    = 'groups';
-    protected $fillable = ['group', 'description'];
-
-    public function labels()
-    {
-        return $this->belongsToMany('Labels');
-    }
+    protected $fillable = ['name', 'description'];
 }
