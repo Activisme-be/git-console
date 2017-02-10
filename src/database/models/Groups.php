@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Groups extends Model
 {
     protected $table    = 'groups';
-    protected $fillable = ['group', 'description'];
+    protected $fillable = ['name', 'description'];
 
     public function labels()
     {

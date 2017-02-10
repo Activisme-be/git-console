@@ -49,5 +49,7 @@ $application->add(new \ActivismeBe\Console\Commands\Database\CreateCommand());
 $application->add(new \ActivismeBe\Console\Commands\Database\StatusCommand());
 $application->add(new \ActivismeBe\Console\Commands\Database\UpCommand());
 
+$application->add(new \ActivismeBe\Console\Commands\CreateGroup());
+
 $application->run();
 //> Boot end envoyer console.
