@@ -1,3 +1,5 @@
+#!/usr/bin/env php
+
 <?php
 
 use Illuminate\Database\Capsule\Manager;
@@ -37,7 +39,9 @@ $capsule->bootEloquent();
 //> Boot up the envoyer console
 $application = new \Symfony\Component\Console\Application('Git traveller', '1.0.0');
 
-$application->add(new \ActivismeBe\Console\Commands\LabelGroupCommand()); // TODO: Build up the command.
+$application->add(new \ActivismeBe\Console\Commands\Repositories\MakeRepoCommand());
+
+$application->add(new \ActivismeBe\Console\Commands\LabelGroupCommand());
 $application->add(new \ActivismeBe\Console\Commands\ChangeGitCommand());
 $application->add(new \ActivismeBe\Console\Commands\ChangeEnvCommand());
 $application->add(new \ActivismeBe\Console\Commands\CreateLabelCommand());

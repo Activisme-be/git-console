@@ -19,4 +19,15 @@ trait Github
         $github = new Client();
         $github->authenticate(getenv('GITHUB_USER'), getenv('GITHUB_PASS'), Client::AUTH_HTTP_PASSWORD);
     }
+
+    public function createFileGit($meta)
+    {
+        $gitFile  = $this->user()->api('repo')->contents():
+
+        if ($gitFile->create($meta['author'], $meta['project'], $meta['path'], $meta['content'], $meta['commit'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
