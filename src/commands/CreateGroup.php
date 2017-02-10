@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class CreateGroup extends Command
 {
@@ -35,6 +36,7 @@ class CreateGroup extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io     = new \Symfony\Component\Console\Style\SymfonyStyle($input, $output);
         $helper = $this->getHelper('question');
 
         $name        = new Question('Group name:        ');
@@ -43,18 +45,28 @@ class CreateGroup extends Command
         $data['name']        = $helper->ask($input, $output, $name);
         $data['description'] = $helper->ask($input, $output, $description);
 
-        if (Groups::create($data)) { // The group is created. Now ask if they want to assign labels.
-            $output->writeln("<info>INFO:</info> The group has been created.");
+        $group = Groups::create($data);
 
+        if ($group) { // The group is created. Now ask if they want to assign labels.
             if ((bool) $input->getOption('assign') === true) { // --assign flag is set.
-                $issues   = Labels::select(['id', 'name'])->get()->toArray();
-                $question = new ChoiceQuestion('What issues u want to assign:', $issues, 0);
+                $issueArr  = [];
+
+                foreach (Labels::all() as $issue) {
+                    array_push($issueArr, $issue->name);
+                }
+
+                $question = new ChoiceQuestion('What issues u want to assign:', $issueArr, 0);
                 $question->setMultiselect(true);
 
-                if () { // CHECK PASSES: The labels are connected to the group.
-                    $output->writeln("<info>INFO:</info> The labels are assigned to the group");
+                foreach ($helper->ask($input, $output, $question) as $identifier) {
+                    $record = Labels::where('name', $identifier)->get()->first();
+                    Labels::find($record->id)->group()->attach($group->id);
                 }
             }
+
+            $io->newLine();
+            $output->writeln("<info>OK:</info> All operations are done.");
+            $io->newLine();
         }
     }
 }
