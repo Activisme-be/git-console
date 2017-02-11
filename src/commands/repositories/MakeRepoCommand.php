@@ -28,6 +28,8 @@ class MakeRepoCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // TODO: create LICENSE STUB.
+
         $helper = $this->getHelper('question');
         $create = new ConfirmationQuestion("Are u sure you want create the repository (" . $input->getArgument('name') . '): ', false);
 
@@ -35,17 +37,25 @@ class MakeRepoCommand extends Command
             return;
         }
 
+        var_dump($this->user());
+        die();
+
         //> START: Create repository
         $this->user()->api('repo')->create($input->getArgument('name'));
         //> END: Create repository
 
         //> START: Set license file to the repo.
         if (! empty($input->getOption('license'))) { // The --license flag is used.
+            // Stub data
+            $licenseFile = file_get_contents(__DIR__ . '/../../stubs/license.md');
+            $licenseFile = str_replace('{YEAR}', date('Y'), $licenseFile);
+            $licenseFile = str_replace('{AUTHOR}', getenv('GITHUB_USER'), $licenseFile);
+
             // License meta data
             $license['author']      = getenv('GITHUB_USER');
             $license['project']     = $input->getArgument('name');
-            $license['path']        = '/';
-            $license['content']     = '';
+            $license['path']        = '/LICENSE';
+            $license['content']     = $licenseFile;
             $license['commit']      = '[ENVOYER]: Added LICENSE file.';
 
             $this->createFileGit($license);
@@ -53,28 +63,30 @@ class MakeRepoCommand extends Command
         //> END: Set license file to the repo.
 
         //>
-        //>
-
-        //>
         if (! empty($input->getOption('conduct'))) { // The --conduct flag is set.
             // Conduct file meta data.
-            $conduct[''] = '';
-            $conduct[''] = '';
-            $conduct[''] = '';
-            $conduct[''] = '';
-            $conduct[''] = '';
+            $conduct['author']  = getenv('GITHUB_USER');
+            $conduct['project'] = $input->getArgument('name');
+            $conduct['path']    = '/CONDUCT.md';
+            $conduct['content'] = file_get_contents(__DIR__ . '/../../stubs/conduct.md');
+            $conduct['commit']  = '[ENVOYER]: Added code of conduct.';
 
             $this->createFileGit($conduct);
         }
-        //>
+        //> END: Set code of conduct to the repo.
 
         //>
         if (! empty($input->getOption('readme'))) { // The --readme flag is set.
-            $readme[''] = '';
-            $readme[''] = '';
-            $readme[''] = '';
-            $readme[''] = '';
-            $readme[''] = '';
+            // Stub data
+            $readmeFile = file_get_contents(__DIR__ . '/../../stubs/readme.md');
+            $readmeFile = str_replace('{NAME}', $input->getArgument('name'), $readmeFile);
+
+            // Readme meta data;
+            $readme['author']  = getenv('GITHUB_USER');
+            $readme['project'] = $input->getArgument('name');
+            $readme['path']    = '/README.md';
+            $readme['content'] = $readmeFile;
+            $readme['commit']  = '[ENVOYER]: Added Readme';
 
             $this->CreateFileGit($readme);
         }
