@@ -28,7 +28,7 @@ class MakeRepoCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // TODO: create LICENSE STUB.
+        // TODO: Needs debugging -> in progress
 
         $helper = $this->getHelper('question');
         $create = new ConfirmationQuestion("Are u sure you want create the repository (" . $input->getArgument('name') . '): ', false);
