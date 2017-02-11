@@ -14,6 +14,11 @@ class MakeRepoCommand extends Command
 {
     use Github;
 
+    /**
+     * Command configuration.
+     *
+     * @return int|void|null
+     */
     protected function configure()
     {
         $this->setName('repo:create');
@@ -26,10 +31,15 @@ class MakeRepoCommand extends Command
         $this->addOption('readme', null, InputOption::VALUE_NONE, 'Add a README file to the repository.');
     }
 
+    /**
+     * Command logic
+     *
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
+     * @return mixed
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // TODO: Needs debugging -> in progress
-
         $helper = $this->getHelper('question');
         $create = new ConfirmationQuestion("Are u sure you want create the repository (" . $input->getArgument('name') . '): ', false);
 
@@ -56,14 +66,14 @@ class MakeRepoCommand extends Command
             $repo1          = $input->getArgument('name');
             $path1          = 'LICENSE';
             $content1       = $licenseFile;
-            $commitMessage1 = 'LICENSE';
+            $commitMessage1 = '[ENVOYER]: created the license file.';
 
             $this->createFileGit($owner1, $repo1, $path1, $content1, $commitMessage1, $branch1, $author1);
             $output->writeln("<info>OK:</info> License created.");
         }
         //> END: Set license file to the repo.
 
-        //>
+        //> START: set code of conduct to the repository.
         if (! empty($input->getOption('conduct'))) { // The --conduct flag is set.
             // Conduct file meta data.
             $branch2         = 'master';
@@ -72,14 +82,14 @@ class MakeRepoCommand extends Command
             $repo2           = $input->getArgument('name');
             $path2           = 'CONDUCT.md';
             $content2        = file_get_contents(__DIR__ . '/../../stubs/conduct.md');
-            $commitMessage2  = 'CONDUCT.md';
+            $commitMessage2  = '[ENVOYER]: created the code of conduct.';
 
             $this->createFileGit($owner2, $repo2, $path2, $content2, $commitMessage2, $branch2, $author2);
             $output->writeln("<info>OK:</info> Code of conduct created.");
         }
         //> END: Set code of conduct to the repo.
 
-        //>
+        //> Start: set readme to the repository.
         if (! empty($input->getOption('readme'))) { // The --readme flag is set.
             // Readme meta data;
             $branch3         = 'master';
@@ -89,7 +99,7 @@ class MakeRepoCommand extends Command
             $path3           = 'README.md';
             $content3        = file_get_contents(__DIR__ . '/../../stubs/readme.md');
             $content3        = str_replace('{NAME}', $input->getArgument('name'), $content3);
-            $commitMessage3  = 'vvREADME.md';
+            $commitMessage3  = '[ENVOYER]: created the readme.';
 
             if ($this->CreateFileGit($owner3, $repo3, $path3, $content3, $commitMessage3, $branch3, $author3)) {
                 $msg = "<info>OK:</info> Readme file created.";
@@ -99,6 +109,6 @@ class MakeRepoCommand extends Command
 
             $output->writeln($msg);
         }
-        //>
+        //> END: Set readme to the repository
     }
 }
