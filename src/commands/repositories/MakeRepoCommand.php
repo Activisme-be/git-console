@@ -39,6 +39,7 @@ class MakeRepoCommand extends Command
 
         //> START: Create repository
         $this->user()->api('repo')->create($input->getArgument('name'));
+        $output->writeln("<info>OK:</info> Repository created.");
         //> END: Create repository
 
         //> START: Set license file to the repo.
@@ -49,13 +50,16 @@ class MakeRepoCommand extends Command
             $licenseFile = str_replace('{AUTHOR}', getenv('GITHUB_USER'), $licenseFile);
 
             // License meta data
-            $license['author']      = getenv('GITHUB_USER');
-            $license['project']     = $input->getArgument('name');
-            $license['path']        = '/LICENSE';
-            $license['content']     = $licenseFile;
-            $license['commit']      = '[ENVOYER]: Added LICENSE file.';
+            $author1        = ['name' => getenv('GITHUB_USER'), 'email' => 'Topairy@gmail.com'];
+            $branch1        = 'master';
+            $owner1         = getenv('GITHUB_USER');
+            $repo1          = $input->getArgument('name');
+            $path1          = 'LICENSE';
+            $content1       = $licenseFile;
+            $commitMessage1 = 'LICENSE';
 
-            $this->createFileGit($author, $repo, $path, $content, $commitMessage, $branch, $commiter);
+            $this->createFileGit($owner1, $repo1, $path1, $content1, $commitMessage1, $branch1, $author1);
+            $output->writeln("<info>OK:</info> License created.");
         }
         //> END: Set license file to the repo.
 
@@ -64,13 +68,14 @@ class MakeRepoCommand extends Command
             // Conduct file meta data.
             $branch2         = 'master';
             $owner2          = getenv('GITHUB_USER');
-            $author2         = getenv('GITHUB_USER');
+            $author2         = ['name' => getenv('GITHUB_USER'), 'email' => 'Topairy@gmail.com'];
             $repo2           = $input->getArgument('name');
-            $path2           = '/CONDUCT.md';
+            $path2           = 'CONDUCT.md';
             $content2        = file_get_contents(__DIR__ . '/../../stubs/conduct.md');
-            $commitMessage2  = '[ENVOYER]: Added code of conduct.';
+            $commitMessage2  = 'CONDUCT.md';
 
             $this->createFileGit($owner2, $repo2, $path2, $content2, $commitMessage2, $branch2, $author2);
+            $output->writeln("<info>OK:</info> Code of conduct created.");
         }
         //> END: Set code of conduct to the repo.
 
@@ -79,14 +84,20 @@ class MakeRepoCommand extends Command
             // Readme meta data;
             $branch3         = 'master';
             $owner3          = getenv('GITHUB_USER');
-            $author3         = getenv('GITHUB_USER');
+            $author3         = ['name' => getenv('GITHUB_USER'), 'email' => 'Topairy@gmail.com'];
             $repo3           = $input->getArgument('name');
-            $path3           = '/README.md';
+            $path3           = 'README.md';
             $content3        = file_get_contents(__DIR__ . '/../../stubs/readme.md');
             $content3        = str_replace('{NAME}', $input->getArgument('name'), $content3);
-            $commitMessage3  = '[ENVOYER]: Added Readme';
+            $commitMessage3  = 'vvREADME.md';
 
-            $this->CreateFileGit($owner3, $repo3, $path3, $content3, $commitMessage3, $branch3, $author3);
+            if ($this->CreateFileGit($owner3, $repo3, $path3, $content3, $commitMessage3, $branch3, $author3)) {
+                $msg = "<info>OK:</info> Readme file created.";
+            } else {
+                $msg = "<info>NOT OK:</info> Could not create readme file.";
+            }
+
+            $output->writeln($msg);
         }
         //>
     }
