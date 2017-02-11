@@ -18,13 +18,15 @@ trait Github
 
         $github = new Client();
         $github->authenticate(getenv('GITHUB_USER'), getenv('GITHUB_PASS'), Client::AUTH_HTTP_PASSWORD);
+
+        return $github;
     }
 
-    public function createFileGit($meta)
+    public function createFileGit($author, $repo, $path, $content, $commitMessage, $branch, $commiter)
     {
         $gitFile  = $this->user()->api('repo')->contents();
 
-        if ($gitFile->create($meta['author'], $meta['project'], $meta['path'], $meta['content'], $meta['commit'])) {
+        if ($gitFile->create($author, $repo, $path, $content, $commitMessage, $branch, $commiter)) {
             return true;
         } else {
             return false;

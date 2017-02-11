@@ -37,9 +37,6 @@ class MakeRepoCommand extends Command
             return;
         }
 
-        var_dump($this->user());
-        die();
-
         //> START: Create repository
         $this->user()->api('repo')->create($input->getArgument('name'));
         //> END: Create repository
@@ -58,37 +55,38 @@ class MakeRepoCommand extends Command
             $license['content']     = $licenseFile;
             $license['commit']      = '[ENVOYER]: Added LICENSE file.';
 
-            $this->createFileGit($license);
+            $this->createFileGit($author, $repo, $path, $content, $commitMessage, $branch, $commiter);
         }
         //> END: Set license file to the repo.
 
         //>
         if (! empty($input->getOption('conduct'))) { // The --conduct flag is set.
             // Conduct file meta data.
-            $conduct['author']  = getenv('GITHUB_USER');
-            $conduct['project'] = $input->getArgument('name');
-            $conduct['path']    = '/CONDUCT.md';
-            $conduct['content'] = file_get_contents(__DIR__ . '/../../stubs/conduct.md');
-            $conduct['commit']  = '[ENVOYER]: Added code of conduct.';
+            $branch2         = 'master';
+            $owner2          = getenv('GITHUB_USER');
+            $author2         = getenv('GITHUB_USER');
+            $repo2           = $input->getArgument('name');
+            $path2           = '/CONDUCT.md';
+            $content2        = file_get_contents(__DIR__ . '/../../stubs/conduct.md');
+            $commitMessage2  = '[ENVOYER]: Added code of conduct.';
 
-            $this->createFileGit($conduct);
+            $this->createFileGit($owner2, $repo2, $path2, $content2, $commitMessage2, $branch2, $author2);
         }
         //> END: Set code of conduct to the repo.
 
         //>
         if (! empty($input->getOption('readme'))) { // The --readme flag is set.
-            // Stub data
-            $readmeFile = file_get_contents(__DIR__ . '/../../stubs/readme.md');
-            $readmeFile = str_replace('{NAME}', $input->getArgument('name'), $readmeFile);
-
             // Readme meta data;
-            $readme['author']  = getenv('GITHUB_USER');
-            $readme['project'] = $input->getArgument('name');
-            $readme['path']    = '/README.md';
-            $readme['content'] = $readmeFile;
-            $readme['commit']  = '[ENVOYER]: Added Readme';
+            $branch3         = 'master';
+            $owner3          = getenv('GITHUB_USER');
+            $author3         = getenv('GITHUB_USER');
+            $repo3           = $input->getArgument('name');
+            $path3           = '/README.md';
+            $content3        = file_get_contents(__DIR__ . '/../../stubs/readme.md');
+            $content3        = str_replace('{NAME}', $input->getArgument('name'), $content3);
+            $commitMessage3  = '[ENVOYER]: Added Readme';
 
-            $this->CreateFileGit($readme);
+            $this->CreateFileGit($owner3, $repo3, $path3, $content3, $commitMessage3, $branch3, $author3);
         }
         //>
     }
