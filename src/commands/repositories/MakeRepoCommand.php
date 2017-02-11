@@ -51,5 +51,33 @@ class MakeRepoCommand extends Command
             $this->createFileGit($license);
         }
         //> END: Set license file to the repo.
+
+        //>
+        //>
+
+        //>
+        if (! empty($input->getOption('conduct'))) { // The --conduct flag is set.
+            // Conduct file meta data.
+            $conduct[''] = '';
+            $conduct[''] = '';
+            $conduct[''] = '';
+            $conduct[''] = '';
+            $conduct[''] = '';
+
+            $this->createFileGit($conduct);
+        }
+        //>
+
+        //>
+        if (! empty($input->getOption('readme'))) { // The --readme flag is set.
+            $readme[''] = '';
+            $readme[''] = '';
+            $readme[''] = '';
+            $readme[''] = '';
+            $readme[''] = '';
+
+            $this->CreateFileGit($readme);
+        }
+        //>
     }
 }
