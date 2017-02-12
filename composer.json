@@ -31,7 +31,9 @@
         }
     },
     "scripts": {
-        "envoyer-build": "php -r \"copy('.env.example', '.env');\""
+        "post-root-package-install": [
+            "php -r \"copy('.env.example', '.env');\""
+        ]
     },
 
     "minimum-stability": "dev"
