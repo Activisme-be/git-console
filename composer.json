@@ -30,6 +30,6 @@
             "ActivismeBe\\Console\\": "src/"
         }
     },
-    
+
     "minimum-stability": "dev"
 }

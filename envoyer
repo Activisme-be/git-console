@@ -23,44 +23,48 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     exit(1);
 }
 
-//> Boot UP:   database connection
-$env = new \Dotenv\Dotenv(__DIR__);
-$env->load();
-
-$capsule = new Manager();
-$capsule->addConnection([
-    'driver'    => 'mysql',
-    'host'      => getenv('DB_HOST'),
-    'database'  => getenv('DB_DATABASE'),
-    'username'  => getenv('DB_USERNAME'),
-    'password'  => getenv('DB_PASSWORD'),
-    'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => '',
-]);
-
-$capsule->setAsGlobal();
-$capsule->bootEloquent();
-//> BOOT END:  end database setup
-
 //> Boot up the envoyer console
 $application = new \Symfony\Component\Console\Application('Git traveller', '1.0.0');
 
-$application->add(new \ActivismeBe\Console\Commands\Repositories\MakeRepoCommand());
+if (file_exists(__DIR__ . '/.env')) { // Environment file exists.
+    //> Boot UP:   database connection
+    $env = new \Dotenv\Dotenv(__DIR__);
+    $env->load();
 
-$application->add(new \ActivismeBe\Console\Commands\LabelGroupCommand());
-$application->add(new \ActivismeBe\Console\Commands\ChangeGitCommand());
-$application->add(new \ActivismeBe\Console\Commands\ChangeEnvCommand());
-$application->add(new \ActivismeBe\Console\Commands\CreateLabelCommand());
+    $capsule = new Manager();
+    $capsule->addConnection([
+        'driver'    => 'mysql',
+        'host'      => getenv('DB_HOST'),
+        'database'  => getenv('DB_DATABASE'),
+        'username'  => getenv('DB_USERNAME'),
+        'password'  => getenv('DB_PASSWORD'),
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+    ]);
 
-$application->add(new \ActivismeBe\Console\Commands\Database\InitCommand());
-$application->add(new \ActivismeBe\Console\Commands\Database\AddEnvCommand());
-$application->add(new \ActivismeBe\Console\Commands\Database\DownCommand());
-$application->add(new \ActivismeBe\Console\Commands\Database\CreateCommand());
-$application->add(new \ActivismeBe\Console\Commands\Database\StatusCommand());
-$application->add(new \ActivismeBe\Console\Commands\Database\UpCommand());
+    $capsule->setAsGlobal();
+    $capsule->bootEloquent();
+    //> BOOT END:  end database setup
 
-$application->add(new \ActivismeBe\Console\Commands\CreateGroup());
+    $application->add(new \ActivismeBe\Console\Commands\Repositories\MakeRepoCommand());
+
+    $application->add(new \ActivismeBe\Console\Commands\LabelGroupCommand());
+    $application->add(new \ActivismeBe\Console\Commands\ChangeGitCommand());
+    $application->add(new \ActivismeBe\Console\Commands\ChangeEnvCommand());
+    $application->add(new \ActivismeBe\Console\Commands\CreateLabelCommand());
+
+    $application->add(new \ActivismeBe\Console\Commands\Database\InitCommand());
+    $application->add(new \ActivismeBe\Console\Commands\Database\AddEnvCommand());
+    $application->add(new \ActivismeBe\Console\Commands\Database\DownCommand());
+    $application->add(new \ActivismeBe\Console\Commands\Database\CreateCommand());
+    $application->add(new \ActivismeBe\Console\Commands\Database\StatusCommand());
+    $application->add(new \ActivismeBe\Console\Commands\Database\UpCommand());
+
+    $application->add(new \ActivismeBe\Console\Commands\CreateGroup());
+} else {
+    $application->add(new \ActivismeBe\Console\Commands\Install\InstallationCommand());
+}
 
 $application->run();
 //> Boot end envoyer console.
