@@ -30,11 +30,6 @@
             "ActivismeBe\\Console\\": "src/"
         }
     },
-    "scripts": {
-        "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\""
-        ]
-    },
-
+    
     "minimum-stability": "dev"
 }
