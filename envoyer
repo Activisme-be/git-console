@@ -14,7 +14,7 @@ ini_set('display_errors', 1);   // For debugging propose
 date_default_timezone_set('America/Los_Angeles');
 
 // include the composer autoloader
-require_once __DIR__ . '/vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 //> Boot UP:   database connection
 $env = new \Dotenv\Dotenv(__DIR__);
