@@ -19,8 +19,11 @@
         "php-http/guzzle6-adapter": "^1.1",
         "illuminate/database": "^5.4"
     },
+    "bin": [
+        "envoyer"
+    ],
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "./"
     },
     "autoload": {
         "psr-4":{
